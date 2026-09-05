@@ -1,0 +1,1 @@
+/home/socks/NSHELL/target/debug/nsh: /home/socks/NSHELL/src/config.rs /home/socks/NSHELL/src/editor.rs /home/socks/NSHELL/src/execute.rs /home/socks/NSHELL/src/expand.rs /home/socks/NSHELL/src/main.rs /home/socks/NSHELL/src/parser.rs /home/socks/NSHELL/src/room.rs /home/socks/NSHELL/src/shell.rs /home/socks/NSHELL/src/state.rs

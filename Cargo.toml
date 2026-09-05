@@ -1,0 +1,15 @@
+[package]
+name = "nshell"
+version = "1.0.0"
+edition = "2024"
+description = "A small interactive Unix shell with declarative rooms"
+license = "MIT"
+
+[[bin]]
+name = "nsh"
+path = "src/main.rs"
+
+[profile.release]
+strip = true
+lto = true
+
