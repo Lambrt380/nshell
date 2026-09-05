@@ -61,7 +61,12 @@ pub fn run_interactive() -> i32 {
                 }
                 shell.record_history(&line);
                 let started = Instant::now();
-                shell.execute_text(&line, 0);
+                let status = shell.execute_text(&line, 0);
+                if status != 0
+                    && let Some(sound) = shell.config.alert_sound.as_deref()
+                {
+                    crate::alert::play(sound);
+                }
                 shell.last_duration = Some(started.elapsed());
                 shell.git_cache = None;
                 if shell.exit_requested {
@@ -534,7 +539,11 @@ impl Shell {
     }
 
     fn command_not_found(&mut self, name: &str) {
-        eprintln!("nsh: {name}: command not found");
+        let color = io::stderr().is_terminal()
+            && env::var_os("NO_COLOR").is_none()
+            && env::var("TERM").is_ok_and(|term| term != "dumb");
+        let marker = paint("❗", &PromptColor::BrightRed, color);
+        eprintln!("{marker} nsh: {name}: command not found {marker}");
         let mut candidates: Vec<String> = commands::BUILTINS
             .iter()
             .chain(commands::SPECIAL.iter())

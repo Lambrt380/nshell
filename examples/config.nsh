@@ -123,6 +123,21 @@ prompt_style = {
 #   prompt = ""
 
 
+# ERROR ALERT SOUND
+#
+# Play a short alert whenever an interactive command finishes unsuccessfully.
+# `metal-gear` uses Nshell's built-in synthesized stealth-game-style sting.
+# `bell` uses the terminal bell. You can also provide an audio file path;
+# Nshell tries pw-play, paplay, and aplay, in that order (WAV is the safest).
+#
+# This is disabled when the setting is absent. Custom paths support ~ and
+# environment-variable expansion.
+
+# alert_sound = "metal-gear"
+# alert_sound = "bell"
+# alert_sound = "~/.config/nshell/my-alert.wav"
+
+
 # GLOBAL ENVIRONMENT
 #
 # These values override the environment inherited by Nshell. Removing an entry

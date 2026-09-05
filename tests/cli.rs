@@ -261,6 +261,32 @@ fn interactive_exit_returns_its_requested_status() {
 }
 
 #[test]
+fn configured_alert_plays_after_an_interactive_error() {
+    let root = temporary_directory("interactive-alert");
+    let config = root.join("config/nshell");
+    fs::create_dir_all(&config).unwrap();
+    fs::write(config.join("config.nsh"), "alert_sound = \"bell\"\n").unwrap();
+    let mut child = nsh()
+        .env("XDG_CONFIG_HOME", root.join("config"))
+        .env("XDG_STATE_HOME", root.join("state"))
+        .stdin(Stdio::piped())
+        .stdout(Stdio::null())
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+    child
+        .stdin
+        .take()
+        .unwrap()
+        .write_all(b"false\nexit 0\n")
+        .unwrap();
+    let output = child.wait_with_output().unwrap();
+    assert!(output.status.success());
+    assert!(output.stderr.contains(&b'\x07'));
+    fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
 fn alias_parameters_are_safe_and_missing_arguments_run_nothing() {
     let root = temporary_directory("alias-parameters");
     let config = root.join("config/nshell");
@@ -527,7 +553,7 @@ fn command_not_found_suggests_without_executing() {
         .unwrap();
     assert_eq!(output.status.code(), Some(127));
     let stderr = String::from_utf8(output.stderr).unwrap();
-    assert!(stderr.contains("command not found"));
+    assert!(stderr.contains("❗ nsh: frobnciate: command not found ❗"));
     assert!(stderr.contains("Did you mean frobnicate?"));
     fs::remove_dir_all(root).unwrap();
 }

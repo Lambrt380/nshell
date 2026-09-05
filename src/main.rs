@@ -1,3 +1,4 @@
+mod alert;
 mod commands;
 mod config;
 mod editor;
@@ -94,6 +95,7 @@ BUILT-INS
 CONFIG HIGHLIGHTS
   prompt_style supports compact, two-line, and framed layouts, optional Git,
   duration, time, job, room, and failure information, and per-part colors.
+  `alert_sound = "metal-gear"` enables the built-in error alert sting.
   `abbr gs > "git status"` creates a visible fish-like editor abbreviation.
   Aliases support standalone $1 through $9 and $@ argument placeholders.
 
@@ -166,6 +168,7 @@ prompt_style = {
 }
 
 # Run `nsh gen config` for every prompt layout and configuration feature.
+# alert_sound = "metal-gear"
 # environment.EDITOR = "nano"
 # abbr gs > "git status"
 # alias ll > "ls -la"

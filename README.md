@@ -72,6 +72,7 @@ prompt_style = {
 
 environment.EDITOR = "nano"
 exec_once_opened = "echo Welcome to Nshell"
+alert_sound = "metal-gear"
 
 alias ll > "ls -la"
 abbr gs > "git status"
@@ -95,6 +96,29 @@ shortcuts: typing `gs` followed by Space or Enter visibly expands it to
 
 See [`examples/config.nsh`](examples/config.nsh) for every prompt option,
 color, shortcut, and command example.
+
+### Error alert sound
+
+Set `alert_sound` to play a short alert whenever an interactive command exits
+unsuccessfully:
+
+```nsh
+alert_sound = "metal-gear"
+```
+
+`metal-gear` is a built-in synthesized stealth-game-style sting, so no audio
+file is required. You can alternatively use the terminal bell or your own
+audio file:
+
+```nsh
+alert_sound = "bell"
+alert_sound = "~/.config/nshell/my-alert.wav"
+```
+
+For custom files, Nshell tries `pw-play`, `paplay`, and `aplay`; WAV is the
+safest format across all three. Remove the setting to disable error sounds.
+Command-not-found errors also display red `❗` alert markers; `NO_COLOR`
+disables their ANSI color.
 
 ## Rooms
 

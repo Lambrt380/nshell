@@ -140,6 +140,7 @@ impl Default for Prompt {
 #[derive(Debug, Clone, Default)]
 pub struct Config {
     pub prompt: Prompt,
+    pub alert_sound: Option<String>,
     pub aliases: HashMap<Vec<String>, String>,
     pub abbreviations: HashMap<String, String>,
     pub startup: Vec<String>,
@@ -390,6 +391,8 @@ pub fn parse(source: &str, path: &Path) -> Result<Config, ConfigError> {
             if !closed {
                 return error(path, index.max(1), 1, "unclosed prompt_style block");
             }
+        } else if line.starts_with("alert_sound") {
+            config.alert_sound = Some(assignment_string(&line, "alert_sound", path, index)?);
         } else if line.starts_with("exec_once_opened") {
             config
                 .startup
@@ -614,6 +617,7 @@ prompt_style = {
 }
 exec_once_opened = "one"
 exec_once_opened = "two"
+alert_sound = "metal-gear"
 alias ff > "fastfetch"
 alias "fun echo" > {
  echo one;
@@ -622,6 +626,7 @@ alias "fun echo" > {
 "#;
         let config = parse(source, Path::new("test.nsh")).unwrap();
         assert_eq!(config.startup, ["one", "two"]);
+        assert_eq!(config.alert_sound.as_deref(), Some("metal-gear"));
         assert_eq!(config.prompt.marker, "$");
         assert_eq!(
             config.aliases[&vec!["fun".into(), "echo".into()]],
