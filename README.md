@@ -1,8 +1,4 @@
-# Nshell
-
-Nshell (`nsh`) is Noelle's small interactive shell for Linux. It supports
-pipelines, redirects, background jobs, command history, aliases, editor
-abbreviations, configurable prompts, and trusted per-project rooms.
+my shell
 
 ## Build and install
 
